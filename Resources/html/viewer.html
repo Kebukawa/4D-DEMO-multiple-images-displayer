@@ -1,0 +1,177 @@
+<html>
+<head>
+<style type="text/css">
+html, body { height: 100%; }
+body { background-color:#eee; margin: 0px; }
+canvas { background-color:#fa8; margin: 0px; }
+</style>
+</head>
+<body>
+<div id="wrapperArea">
+<canvas id="canvasArea">
+</canvas>
+</div>
+
+<!-- javascript参考：https://kano.arkoak.com/2020/06/04/zoom/ -->
+<script>
+	const canvas = document.getElementById('canvasArea');
+	const ctx = canvas.getContext('2d');
+	const image = new Image();
+	const MAX_SCALE = 5;
+	const SCALE_STEP = 0.2;
+	let		imageScale = 1,
+			imageScaleIndex = 0;
+
+	// マウス関連
+	let mouseX, mouseY, press = false;
+	let mouseMoveX, mouseMoveY, mouseDragX, mouseDragY;
+
+	// 拡大・縮小後の画像表示領域
+	let		baseScale, viewX = 0,
+			viewY = 0;
+	let		viewXBuf = 0,
+			viewYBuf = 0;
+
+	canvas.addEventListener('mousewheel', canvasZoom);
+	canvas.addEventListener('mouseover', disableScroll);
+	canvas.addEventListener('mouseout', enableScroll);
+
+	// ドラッグ操作用
+	canvas.addEventListener('mousedown', function() {
+		// マウスが押下された瞬間の情報を記録
+		viewXBuf = viewX;
+		viewYBuf = viewY;
+		press = true;
+	});
+	canvas.addEventListener('mouseup', function() {
+		press = false;
+	});
+	canvas.addEventListener('mouseout', function() {
+		press = false;
+	});
+	canvas.addEventListener('mousemove', mouseMove);
+
+	function draw() {
+		// 画像のスケーリング表示
+		image.addEventListener("load", function() {
+			ctx.drawImage(image, viewX, viewY, viewWidth / imageScale, viewHeight / imageScale, 0, 0, canvas.width, canvas.height);
+		});		
+		 // 画像オブジェクトを生成
+		image.src = "data:image/png;base64,<!--#4DEVAL $1-->"  
+	}
+
+	function canvasZoom(e) {
+		// Canvas上マウス座標の取得
+		let rect = e.target.getBoundingClientRect();
+		mouseX = e.clientX;
+		mouseY = e.clientY;
+
+		if (e.wheelDelta > 0) {
+			// ズームアップ
+			imageScaleIndex++;
+			imageScale = 1 + imageScaleIndex * SCALE_STEP;
+			if (imageScale > MAX_SCALE) {
+				imageScale = MAX_SCALE;
+				imageScaleIndex--;
+			} else {
+				// マウス座標が中心になるようにする
+				viewX += mouseX * baseScale * SCALE_STEP / (imageScale * (imageScale - SCALE_STEP));
+				viewY += mouseY * baseScale * SCALE_STEP / (imageScale * (imageScale - SCALE_STEP));
+		}
+		} else {
+			// ズームアウト
+			imageScaleIndex--;
+			imageScale = 1 + imageScaleIndex * SCALE_STEP;
+			if (imageScale < 1) {
+				imageScale = 1;
+				viewX = 0;
+				viewY = 0;
+				imageScaleIndex = 0;
+			} else {
+			// マウス座標が中心になるようにする
+				viewX -= mouseX * baseScale * SCALE_STEP / (imageScale * (imageScale + SCALE_STEP));
+				viewY -= mouseY * baseScale * SCALE_STEP / (imageScale * (imageScale + SCALE_STEP));
+				// 画像座標を超えないように調整
+			}
+		}
+
+		draw();
+	}
+
+	// マウス移動時の処理
+	function mouseMove(e) {
+		let rect = e.target.getBoundingClientRect();
+		if (press) {
+			// ドラッグ処理
+			mouseDragX = e.clientX;
+			mouseDragY = e.clientY;
+			// view座標の計算
+			viewX = viewXBuf + (mouseMoveX - mouseDragX) * baseScale;
+			viewY = viewYBuf + (mouseMoveY - mouseDragY) * baseScale;
+			// 画像座標を超えないように調整
+			viewX = Math.max(0, Math.min((image.width - viewWidth / imageScale) , viewX));
+			viewY = Math.max(0, Math.min((image.height  - viewHeight / imageScale)  , viewY));
+			// 再描画
+			draw();
+		} else {
+			// 移動座標の記録
+			mouseMoveX = e.clientX;
+			mouseMoveY = e.clientY;
+		}
+	}
+
+	// Cnavas上ではブラウザのスクロールを無効に
+	function disableScroll() {
+		document.addEventListener("mousewheel", scrollControl, {
+			passive: false
+		});
+	}
+
+	function enableScroll() {
+		document.removeEventListener("mousewheel", scrollControl, {
+			passive: false
+		});
+	}
+
+	function scrollControl(e) {
+		e.preventDefault();
+	}
+
+	draw();
+
+	// リサイズしたときの処理
+	// キャンバスのサイズをウインドウに合わせて変更
+	function setResizeCanvas(){
+		// キャンバスのサイズを再設定
+		wrapperArea.style.width		= window.innerWidth;
+		wrapperArea.style.heght		= window.innerHeight;
+		canvasArea.style.width		= window.innerWidth;
+		canvasArea.style.height		=  window.innerHeight;
+		// viewのアスペクト比を計算（隙間ができないように小さい辺にあわせる）
+		if ((window.innerHeight / window.innerWidth ) > (image.height / image.width )) {
+			// canvasよりも幅がある画像
+			viewHeight = image.height;
+			viewWidth = image.height * window.innerWidth / window.innerHeight;
+			baseScale = image.height / window.innerHeight;
+		} else {
+			// canvasよりも高さがある画像
+			viewHeight = image.width * window.innerHeight / window.innerWidth;
+			viewWidth = image.width;
+			baseScale = image.width / window.innerWidth;
+		}
+		// 画像座標を超えないように調整
+		viewX = Math.max(0, Math.min((image.width - viewWidth / imageScale) , viewX));
+		viewY = Math.max(0, Math.min((image.height  - viewHeight / imageScale)  , viewY));
+		draw();
+	}
+
+	window.addEventListener("resize", function(){
+		setResizeCanvas();
+	});
+	window.addEventListener("load", function(){
+		setResizeCanvas();
+	});
+
+</script>
+</body>
+</html>

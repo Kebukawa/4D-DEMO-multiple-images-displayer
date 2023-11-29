@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE base SYSTEM "http://www.4d.com/dtd/2007/base.dtd" >
+<base name="Multiple images displayer" uuid="B75C62B88722496E8733C72777885BC6" collation_locale="ja">
+	<schema name="DEFAULT_SCHEMA"/>
+	<table name="Image" uuid="8FC6579165944509B90B088CED617CDE" id="1">
+		<field name="ID" uuid="A3BEE6D8F82645A7BAB77C8867C1FFCA" type="10" unique="true" autogenerate="true" store_as_UUID="true" not_null="true" id="1"/>
+		<field name="ID_Main" uuid="749B13D6F02E4A0EA7121F2D6760D9D2" type="10" store_as_UUID="true" never_null="true" id="2"/>
+		<field name="Image" uuid="74A84C38D9274263B977DE8CB94D7DED" type="12" never_null="true" id="3"/>
+		<primary_key field_name="ID" field_uuid="A3BEE6D8F82645A7BAB77C8867C1FFCA"/>
+		<table_extra>
+			<editor_table_info displayable_fields_count="6">
+				<color red="255" green="255" blue="255" alpha="0"/>
+				<coordinates left="263" top="59" width="120" height="167.33203125"/>
+			</editor_table_info>
+		</table_extra>
+	</table>
+	<table name="Main" uuid="B46F630710A548C08FAC6A5E2E68D050" id="2">
+		<field name="ID" uuid="B016DC7AA5584C0AB9B659C218703179" type="10" unique="true" autogenerate="true" store_as_UUID="true" not_null="true" id="1"/>
+		<field name="Name" uuid="5AFF0DA640C448B38FD7CA1F965E20AE" type="10" limiting_length="255" never_null="true" id="2"/>
+		<primary_key field_name="ID" field_uuid="B016DC7AA5584C0AB9B659C218703179"/>
+		<table_extra input_form="Input" output_form="Output">
+			<editor_table_info displayable_fields_count="6">
+				<color red="255" green="255" blue="255" alpha="0"/>
+				<coordinates left="44" top="60" width="120" height="167.33203125"/>
+			</editor_table_info>
+		</table_extra>
+	</table>
+	<relation uuid="539D7CF36F4B434EB3EBF0255A1D0F68" name_Nto1="Link_image_to_group" name_1toN="Link_group_to_image" auto_load_Nto1="false" auto_load_1toN="true" foreign_key="false" state="1">
+		<related_field kind="source">
+			<field_ref uuid="749B13D6F02E4A0EA7121F2D6760D9D2" name="ID_Main">
+				<table_ref uuid="8FC6579165944509B90B088CED617CDE" name="Image"/>
+			</field_ref>
+		</related_field>
+		<related_field kind="destination">
+			<field_ref uuid="B016DC7AA5584C0AB9B659C218703179" name="ID">
+				<table_ref uuid="B46F630710A548C08FAC6A5E2E68D050" name="Main"/>
+			</field_ref>
+		</related_field>
+		<relation_extra entry_wildchar="false" entry_create="false" choice_field="0" entry_autofill="false">
+			<editor_relation_info via_point_x="-1" via_point_y="-1" prefers_left="true" smartlink="true">
+				<color red="255" green="255" blue="255" alpha="0"/>
+			</editor_relation_info>
+		</relation_extra>
+	</relation>
+	<index kind="regular" unique_keys="true" uuid="22E4C8FB24B74E62B5EEA45891CE636F" type="7">
+		<field_ref uuid="B016DC7AA5584C0AB9B659C218703179" name="ID">
+			<table_ref uuid="B46F630710A548C08FAC6A5E2E68D050" name="Main"/>
+		</field_ref>
+	</index>
+	<index kind="regular" unique_keys="true" uuid="466141D59C0040C9B0BC36022E781A4A" type="7">
+		<field_ref uuid="A3BEE6D8F82645A7BAB77C8867C1FFCA" name="ID">
+			<table_ref uuid="8FC6579165944509B90B088CED617CDE" name="Image"/>
+		</field_ref>
+	</index>
+	<base_extra>
+		<journal_file journal_file_enabled="true"/>
+	</base_extra>
+</base>

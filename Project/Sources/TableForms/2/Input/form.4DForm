@@ -1,0 +1,191 @@
+{
+	"$4d": {
+		"version": "1",
+		"kind": "form"
+	},
+	"windowSizingX": "variable",
+	"windowSizingY": "variable",
+	"windowMinWidth": 0,
+	"windowMinHeight": 0,
+	"windowMaxWidth": 32767,
+	"windowMaxHeight": 32767,
+	"rightMargin": 0,
+	"bottomMargin": 0,
+	"events": [
+		"onLoad",
+		"onPageChange",
+		"onValidate",
+		"onClick",
+		"onDoubleClick",
+		"onOutsideCall",
+		"onBeginDragOver",
+		"onDragOver",
+		"onDrop",
+		"onAfterKeystroke",
+		"onMenuSelect",
+		"onPluginArea",
+		"onAfterEdit",
+		"onTimer",
+		"onBoundVariableChange"
+	],
+	"windowTitle": "window title",
+	"destination": "detailScreen",
+	"pages": [
+		{
+			"objects": {
+				"Base Button": {
+					"type": "button",
+					"text": "",
+					"top": 0,
+					"left": 0,
+					"width": 800,
+					"height": 600,
+					"events": [
+						"onMouseEnter"
+					],
+					"style": "custom",
+					"method": "ObjectMethods/Base Button.4dm",
+					"dataSource": "",
+					"right": 800,
+					"bottom": 600
+				}
+			}
+		},
+		{
+			"objects": {
+				"Button1": {
+					"type": "button",
+					"text": "",
+					"top": 40,
+					"left": 185,
+					"width": 612,
+					"height": 540,
+					"events": [
+						"onMouseEnter"
+					],
+					"style": "toolbar",
+					"borderStyle": "none",
+					"method": "ObjectMethods/Button1.4dm",
+					"sizingX": "grow",
+					"sizingY": "grow"
+				},
+				"label_Name": {
+					"type": "text",
+					"text": "Name:",
+					"top": 19,
+					"left": 14,
+					"width": 100,
+					"height": 17
+				},
+				"field_Name": {
+					"type": "input",
+					"dataSource": "[Group:2]Name:2",
+					"top": 19,
+					"left": 67,
+					"width": 250,
+					"height": 17
+				},
+				"List Box": {
+					"type": "listbox",
+					"left": 14,
+					"top": 60,
+					"width": 170,
+					"height": 498,
+					"events": [
+						"onClick",
+						"onSelectionChange",
+						"onMouseEnter",
+						"onMouseLeave"
+					],
+					"listboxType": "collection",
+					"rowHeight": "150px",
+					"resizingMode": "legacy",
+					"scrollbarHorizontal": "hidden",
+					"showHeaders": false,
+					"dataSource": "Form:C1466.list",
+					"sizingX": "fixed",
+					"sizingY": "grow",
+					"method": "ObjectMethods/List Box.4dm",
+					"selectedItemsSource": "Form:C1466.ListboxSelectRows",
+					"columns": [
+						{
+							"header": {
+								"text": "Header1",
+								"name": "Header1"
+							},
+							"name": "Column1",
+							"footer": {
+								"name": "Footer1"
+							},
+							"dataSourceTypeHint": "picture",
+							"width": 150,
+							"minWidth": 150,
+							"maxWidth": 150,
+							"dataSource": "This:C1470.Image",
+							"pictureFormat": "proportionalTopLeft"
+						}
+					]
+				},
+				"Web Area": {
+					"type": "webArea",
+					"left": 200,
+					"top": 60,
+					"width": 587,
+					"height": 500,
+					"sizingX": "grow",
+					"sizingY": "grow",
+					"right": 787,
+					"webEngine": "embedded"
+				},
+				"Help text": {
+					"type": "text",
+					"text": "text default",
+					"top": 572,
+					"left": 14,
+					"width": 751,
+					"height": 16,
+					"sizingX": "grow",
+					"sizingY": "move"
+				},
+				"Button": {
+					"type": "button",
+					"text": "Button",
+					"top": 572,
+					"left": 766,
+					"width": 31,
+					"height": 27,
+					"events": [
+						"onClick"
+					],
+					"style": "help",
+					"method": "ObjectMethods/Button.4dm",
+					"sizingX": "move",
+					"sizingY": "move"
+				},
+				"Button cancel": {
+					"type": "pictureButton",
+					"left": 734,
+					"top": 9,
+					"width": 48,
+					"height": 48,
+					"events": [],
+					"picture": "Images/Cancel.png",
+					"columnCount": 1,
+					"rowCount": 4,
+					"action": "cancel",
+					"sizingX": "move"
+				}
+			}
+		}
+	],
+	"geometryStamp": 156,
+	"method": "method.4dm",
+	"editor": {
+		"activeView": "View 1",
+		"defaultView": "View 1",
+		"views": {
+			"View 1": {}
+		}
+	},
+	"formSizeAnchor": "Base Button"
+}
