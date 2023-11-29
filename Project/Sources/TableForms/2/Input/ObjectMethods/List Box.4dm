@@ -53,8 +53,9 @@ Case of
 					
 				: ($select="paste")  //クリップボードからペースト
 					If (Picture size:C356($image)#0) & (Form:C1466.ListboxSelectRows.length#0)
-						Form:C1466.ListboxSelectRows[0].Image:=$image
-						Form:C1466.ListboxSelectRows[0].save()
+						$entity:=Form:C1466.ListboxSelectRows[0]
+						$entity.Image:=$image
+						$entity.save()
 						Form:C1466.list:=ds:C1482.Image.query("ID_Main = :1"; [Main:2]ID:1)
 					End if 
 					

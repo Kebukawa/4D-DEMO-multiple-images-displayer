@@ -25,7 +25,7 @@
 			</editor_table_info>
 		</table_extra>
 	</table>
-	<relation uuid="539D7CF36F4B434EB3EBF0255A1D0F68" name_Nto1="Link_image_to_group" name_1toN="Link_group_to_image" auto_load_Nto1="false" auto_load_1toN="true" foreign_key="false" state="1">
+	<relation uuid="539D7CF36F4B434EB3EBF0255A1D0F68" name_Nto1="Link_image_to_group" name_1toN="Link_group_to_image" auto_load_Nto1="false" auto_load_1toN="false" foreign_key="false" state="1">
 		<related_field kind="source">
 			<field_ref uuid="749B13D6F02E4A0EA7121F2D6760D9D2" name="ID_Main">
 				<table_ref uuid="8FC6579165944509B90B088CED617CDE" name="Image"/>
